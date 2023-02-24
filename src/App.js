@@ -1,25 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { connect } from "react-redux";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+//mendefinisikan type increment,decrement, reset menggunakan dispatch
+class App extends React.Component {
+  increment = () => {
+    this.props.dispatch({
+      type: "INCREMENT"
+    });
+  };
+
+  decrement = () => {
+    this.props.dispatch({
+      type: "DECREMENT"
+    });
+  };
+
+  reset = () => {
+    this.props.dispatch({
+      type: "RESET"
+    })
+  }
+
+  //tampilan yang akan di display
+  render() {
+    return (
+      <div className="App mt-5">
+        <button onClick={this.increment} className="btn btn-success mr-5">
+          Increment
+        </button>
+        <button onClick={this.decrement} className="btn btn-danger" style={{marginLeft:20}}>
+          Decrement
+        </button>
+        <h2 className="mt-5 display-1">{this.props.count}</h2>
+        <div>
+        <button className="btn btn-dark resetBtn" onClick={this.reset} style={{marginTop:20}}>
+          Reset
+        </button>
+      </div>
+      </div>
+    );
+  }
 }
 
-export default App;
+
+//mapStateToProps untuk memanggil data store redux
+//fungsi untuk menampilkan nilai hasil decrement,increment dan reset
+const mapStateToProps = state => {
+  return {
+    count: state.count
+  };
+};
+
+
+export default connect(mapStateToProps)(App);
