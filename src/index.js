@@ -1,19 +1,27 @@
 import React from "react";
 import ReactDOM  from "react-dom/client";
 import {Provider} from "react-redux";
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
+import thunk from "redux-thunk";
 
-//import setiap class
-import reducer from "./reducer";
+
+//import setiap class atau file
+import reducer from "./reducer/reducer.js";
 import App from "./App";
-import "./style.css";
 
 
-let store = createStore(reducer);
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
-const el = document.getElementById("root");
-const root = ReactDOM.createRoot(el);
-
+//untuk membuat penyimpanan baru 
+const store = createStore(reducer, applyMiddleware(thunk));
 
 //proses rendering 
-root.render(<Provider store={store}><App /></Provider>);
+root.render(
+    <Provider store={store}>
+        <App />
+    </Provider>
+);
+
+
+
+
